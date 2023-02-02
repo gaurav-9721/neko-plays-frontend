@@ -11,7 +11,7 @@ const PersonalProfile = () => {
     })
 
     const getProfile = async () => {
-        const res = await fetch('/profile', {
+        const res = await fetch(process.env.REACT_APP_BASE_URL+'/profile', {
           method: 'GET',
           headers: {
             "Content-type": 'application/json',

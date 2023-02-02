@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault()
     //console.log("Register CLicked")
 
-    const res = await fetch("/login", {
+    const res = await fetch(process.env.REACT_APP_BASE_URL+"/login", {
       method: 'POST',
       headers: { "content-type": "application/json" },
       body: JSON.stringify({

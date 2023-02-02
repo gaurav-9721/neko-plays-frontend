@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
     const isAuth = async () => {
         try{
           console.log('Hellpo')
-            const res = await fetch('/userloggedin', {
+            const res = await fetch(process.env.REACT_APP_BASE_URL + '/userloggedin', {
                 method: 'GET',
                 headers: {
                   "Content-type": 'application/json',

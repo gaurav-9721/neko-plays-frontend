@@ -26,7 +26,7 @@ const Register = () => {
     console.log("Register CLicked")
     
 
-    const res = await fetch("/register", {
+    const res = await fetch(process.env.REACT_APP_BASE_URL+"/register", {
       method: 'POST',
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
