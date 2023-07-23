@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import API from '../api'
 
 const AuthContext = createContext({
   auth: null,
@@ -16,20 +17,20 @@ const AuthProvider = ({ children }) => {
     
     const isAuth = async () => {
         try{
-          console.log('Hellpo')
-            const res = await fetch(process.env.REACT_APP_BASE_URL + '/userloggedin', {
-                method: 'GET',
+          
+            const res = await API.get('/userloggedin', {
+                
                 headers: {
                   "Content-type": 'application/json',
-                  Accept: 'application/json'
+                  Accept: 'application/json',
+                
                 },
-                credentials: 'include'
           
               })
 
-              //const data = await res.json()
-              console.log('Auth',res)
-              if(res.status === 200){
+              
+              if(res.data.login){
+                
                 setAuth(true)
               }
               else{

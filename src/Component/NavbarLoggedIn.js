@@ -5,20 +5,19 @@ import logo from '../images/logo.png'
 import neko_plays from '../images/neko_plays.png'
 import '../App.css'
 import { useAuth } from '../Hooks/useAuthLogin'
+import API from '../api'
 
 const NavbarLoggedIn = () => {
   const { setAuth, user } = useAuth();
   const navigate = useNavigate();
 
   const logout = async () => {
-    const res = await fetch('/logout', {
-      method: 'GET',
-      headers: {
-        "Content-type": 'application/json',
-        Accept: 'application/json'
-      },
-      credentials: 'include'
-
+    
+    const res = await API.get("/logout", {
+     
+      headers: { "content-type": "application/json", Accept: 'application/json'},
+      credentials: 'include',
+      
     })
 
     setAuth(false)

@@ -1,6 +1,7 @@
 import { React, useState } from 'react'
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Hooks/useAuthLogin';
+import API from '../api'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,24 +14,36 @@ const Login = () => {
     e.preventDefault()
     //console.log("Register CLicked")
 
-    const res = await fetch(process.env.REACT_APP_BASE_URL+"/login", {
-      method: 'POST',
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
+    try{
+
+    const res = await API.post("/login", {
+     
+      headers: { "content-type": "application/json"},
+      credentials: 'include',
+      body: {
         'email': email,
         'password': password,
+      },
+      withCredentials: true 
+      
 
-      })
+      
     })
-    const data = await res.json()
-    if (res.status === 422 || !data) {
-      setMessage("*" + data.error)
-    }
-    else if (res.status === 200) {
+    const data = await res.data
+    if (res.status === 200) {
       setMessage("*" + data.message)
       setAuth(true);
       navigate('/profile')
     }
+    console.log(res)
+    
+  }
+  catch (err){
+    const errormsg = err.response.data.error
+    setMessage("*" + errormsg)
+  }
+    
+    
   }
 
   return (

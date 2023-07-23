@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import API from '../api'
 
 const PersonalProfile = () => {
 
@@ -11,8 +12,7 @@ const PersonalProfile = () => {
     })
 
     const getProfile = async () => {
-        const res = await fetch(process.env.REACT_APP_BASE_URL+'/profile', {
-          method: 'GET',
+        const res = await API.get('/profile', {
           headers: {
             "Content-type": 'application/json',
             Accept: 'application/json'
@@ -21,8 +21,8 @@ const PersonalProfile = () => {
     
         })
     
-        const data = await res.json()
-        console.log(data)
+        const data = await res.data
+        //console.log(data)
         setUserData(data)
       }
     

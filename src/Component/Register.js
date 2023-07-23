@@ -1,10 +1,11 @@
 import { React, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { NavLink } from 'react-router-dom'
-
+import { NavLink, Navigate, useNavigate } from 'react-router-dom'
+import API from '../api'
 
 const Register = () => {
 
+  const navigate = useNavigate()
   const [user, setUser] = useState({
     fullname: '', username: '', email: '', pass: '', cpass: ''
   })
@@ -25,26 +26,32 @@ const Register = () => {
     e.preventDefault()
     console.log("Register CLicked")
     
-
-    const res = await fetch(process.env.REACT_APP_BASE_URL+"/register", {
+    try{
+    const res = await API.post("/register", {
       method: 'POST',
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
+      body:{
         'username': user.username,
         'fullname': user.fullname,
         'email': user.email,
         'password': user.pass,
         'cpassword': user.cpass
-      })
+      }
     })
 
-    const data = await res.json()
-    if (res.status === 422 || !data) {
-      setMessage("*" + data.error)
-    }
-    else if (res.status === 201 || res.status === 500) {
+    const data = await res.data
+    console.log(res)
+    if (res.status === 201) {
       setMessage("*"+ data.message)
+      navigate('/login')
     }
+  }
+  catch (err){
+    const errMsg = err.response.data.error
+    setMessage("*"+ errMsg)
+  }
+    
+   
 
   }
 
